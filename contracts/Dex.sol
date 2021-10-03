@@ -1,8 +1,8 @@
-pragma solidity 0.6.3;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import '@openzeppelin/contracts/math/SafeMath.sol';
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract Dex {
 
@@ -36,7 +36,7 @@ contract Dex {
     address public admin;
     uint public nextOrderId;
     uint public nextTradeId;
-    bytes32 constant DAI = bytes32('DAI');
+    bytes32 constant DAI = bytes32("DAI");
     
     event NewTrade(
         uint tradeId,
@@ -105,7 +105,7 @@ contract Dex {
         external {
         require(
             traderBalances[msg.sender][ticker] >= amount,
-            'balance too low'
+            "balance too low"
         ); 
         traderBalances[msg.sender][ticker] = traderBalances[msg.sender][ticker].sub(amount);
         IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
@@ -122,12 +122,12 @@ contract Dex {
         if(side == Side.SELL) {
             require(
                 traderBalances[msg.sender][ticker] >= amount, 
-                'token balance too low'
+                "token balance too low"
             );
         } else {
             require(
                 traderBalances[msg.sender][DAI] >= amount.mul(price),
-                'dai balance too low'
+                "dai balance too low"
             );
         }
         Order[] storage orders = orderBook[ticker][uint(side)];
@@ -139,7 +139,7 @@ contract Dex {
             amount,
             0,
             price,
-            now 
+            block.timestamp 
         ));
         
         uint i = orders.length > 0 ? orders.length - 1 : 0;
@@ -168,7 +168,7 @@ contract Dex {
         if(side == Side.SELL) {
             require(
                 traderBalances[msg.sender][ticker] >= amount, 
-                'token balance too low'
+                "token balance too low"
             );
         }
         Order[] storage orders = orderBook[ticker][uint(side == Side.BUY ? Side.SELL : Side.BUY)];
@@ -188,7 +188,7 @@ contract Dex {
                 msg.sender,
                 matched,
                 orders[i].price,
-                now
+                block.timestamp
             );
             if(side == Side.SELL) {
                 traderBalances[msg.sender][ticker] = traderBalances[msg.sender][ticker].sub(matched);
@@ -199,7 +199,7 @@ contract Dex {
             if(side == Side.BUY) {
                 require(
                     traderBalances[msg.sender][DAI] >= matched.mul(orders[i].price),
-                    'dai balance too low'
+                    "dai balance too low"
                 );
                 traderBalances[msg.sender][ticker] = traderBalances[msg.sender][ticker].add(matched);
                 traderBalances[msg.sender][DAI] = traderBalances[msg.sender][DAI].sub(matched.mul(orders[i].price));
@@ -221,20 +221,20 @@ contract Dex {
     }
    
     modifier tokenIsNotDai(bytes32 ticker) {
-       require(ticker != DAI, 'cannot trade DAI');
+       require(ticker != DAI, "cannot trade DAI");
        _;
     }     
     
     modifier tokenExist(bytes32 ticker) {
         require(
             tokens[ticker].tokenAddress != address(0),
-            'this token does not exist'
+            "this token does not exist"
         );
         _;
     }
     
     modifier onlyAdmin() {
-        require(msg.sender == admin, 'only admin');
+        require(msg.sender == admin, "only admin");
         _;
     }
 }

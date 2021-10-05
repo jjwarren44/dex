@@ -40,14 +40,13 @@ const getWeb3 = () => {
 
 const getContracts = async web3 => {
     const networkId = await web3.eth.net.getId();
-    console.log("networkID " + networkId);
     const deployedNetwork = Dex.networks[networkId];
-    console.log(deployedNetwork);
+
     const dex = new web3.eth.Contract(
         Dex.abi,
         deployedNetwork && deployedNetwork.address,
     );
-    console.log("dex address: " + dex.address);
+
     const tokens = await dex.methods.getTokens().call();
     const tokenContracts = tokens.reduce((acc, token) => ({
         ...acc,

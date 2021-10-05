@@ -1,10 +1,10 @@
-const Dai = artifacts.require("mocks/Dai.sol");
-const Bat = artifacts.require("mocks/Bat.sol");
-const Rep = artifacts.require("mocks/Rep.sol");
-const Zrx = artifacts.require("mocks/Zrx.sol");
+const Dai = artifacts.require('mocks/Dai.sol');
+const Bat = artifacts.require('mocks/Bat.sol');
+const Rep = artifacts.require('mocks/Rep.sol');
+const Zrx = artifacts.require('mocks/Zrx.sol');
 const Dex = artifacts.require("Dex.sol");
 
-const [DAI, BAT, REP, ZRX] = ["DAI", "BAT", "REP", "ZRX"].map(ticker => web3.utils.fromAscii(ticker));
+const [DAI, BAT, REP, ZRX] = ['DAI', 'BAT', 'REP', 'ZRX'].map(ticker => web3.utils.fromAscii(ticker));
 
 const SIDE = {
     BUY: 0,
@@ -13,11 +13,9 @@ const SIDE = {
 
 module.exports = async function(deployer, _network, accounts) {
     const [trader1, trader2, trader3, trader4, _] = accounts;
-
     await Promise.all(
         [Dai, Bat, Rep, Zrx, Dex].map(contract => deployer.deploy(contract))
     );
-
     const [dai, bat, rep, zrx, dex] = await Promise.all(
         [Dai, Bat, Rep, Zrx, Dex].map(contract => contract.deployed())
     );
@@ -29,9 +27,9 @@ module.exports = async function(deployer, _network, accounts) {
         dex.addToken(ZRX, zrx.address)
     ]);
 
-    const amount = web3.utils.toWei("1000");
+    const amount = web3.utils.toWei('1000');
     const seedTokenBalance = async(token, trader) => {
-        await token.faucet(trader, amount);
+        await token.faucet(trader, amount)
         await token.approve(
             dex.address,
             amount, { from: trader }
@@ -40,9 +38,8 @@ module.exports = async function(deployer, _network, accounts) {
         await dex.deposit(
             amount,
             web3.utils.fromAscii(ticker), { from: trader }
-        )
+        );
     };
-
     await Promise.all(
         [dai, bat, rep, zrx].map(
             token => seedTokenBalance(token, trader1)
@@ -133,4 +130,4 @@ module.exports = async function(deployer, _network, accounts) {
         dex.createLimitOrder(ZRX, 1200, 22, SIDE.SELL, { from: trader3 }),
         dex.createLimitOrder(ZRX, 900, 21, SIDE.SELL, { from: trader4 }),
     ]);
-}
+};

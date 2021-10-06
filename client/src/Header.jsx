@@ -1,5 +1,5 @@
 import React from "react";
-import Dropdown from "./Dropdown.js";
+import Dropdown from "./Dropdown.jsx";
 
 function Header({
     user,

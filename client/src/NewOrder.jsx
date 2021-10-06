@@ -37,12 +37,12 @@ function NewOrder({createMarketOrder, createLimitOrder}) {
                 <div id="type" className="btn-group" role="group">
                   <button 
                     type="button" 
-                    className={`btn btn-secondary ${order.type === TYPE.LIMIT ? 'active' : ''}`}
+                    className={`btn btn-secondary ${order.type === TYPE.LIMIT ? "active" : ""}`}
                     onClick={() => setOrder(order => ({ ...order, type: TYPE.LIMIT}))}
                   >Limit</button>
                   <button 
                     type="button" 
-                    className={`btn btn-secondary ${order.type === TYPE.MARKET ? 'active' : ''}`}
+                    className={`btn btn-secondary ${order.type === TYPE.MARKET ? "active" : ""}`}
                     onClick={() => setOrder(order => ({ ...order, type: TYPE.MARKET}))}
                   >Market</button>
                 </div>
@@ -54,12 +54,12 @@ function NewOrder({createMarketOrder, createLimitOrder}) {
                 <div id="side" className="btn-group" role="group">
                   <button 
                     type="button" 
-                    className={`btn btn-secondary ${order.side === SIDE.BUY ? 'active' : ''}`}
+                    className={`btn btn-secondary ${order.side === SIDE.BUY ? "active" : ""}`}
                     onClick={() => setOrder(order => ({ ...order, side:  SIDE.BUY}))}
                   >Buy</button>
                   <button 
                     type="button" 
-                    className={`btn btn-secondary ${order.side === SIDE.SELL ? 'active' : ''}`}
+                    className={`btn btn-secondary ${order.side === SIDE.SELL ? "active" : ""}`}
                     onClick={() => setOrder(order => ({ ...order, side:  SIDE.SELL}))}
                   >Sell</button>
                 </div>

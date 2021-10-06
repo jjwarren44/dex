@@ -33,3 +33,7 @@ footer {
 .row {
     padding-bottom: 10px;
 }
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    color: white !important;
+}

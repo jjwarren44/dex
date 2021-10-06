@@ -11,5 +11,7 @@ Users are able to:
 - Set limit buy/sell orders
 - Set market buy/sell orders
 
+Created in the <a href="https://eattheblocks.com/">Eat The Blocks Course</a>
+
 #### Screenshot of Finished Project
 ![DEX screenshot](imgs/dex_screenshot.png)
